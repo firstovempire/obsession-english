@@ -15,7 +15,7 @@ function todayPage() {
   const last = days.latest(), due = srs.dueList().length, errs = progress.activeErrors();
   const every = cloudUser() ? 30 : BACKUP_DAYS; // с облаком файл — запасной вариант, раз в месяц
   const stale = hasData() && Date.now() - (S.backupAt || S.created || Date.now()) > every * DAY; // первые дни не напоминаем
-  show(`${stale ? `<div class="trap warn"><b>Сделай бэкап прогресса.</b> ${S.backupAt ? 'Последний был ' + plural(Math.floor((Date.now() - S.backupAt) / DAY), 'день', 'дня', 'дней') + ' назад.' : 'Ты ещё ни разу его не делал.'} ${cloudUser() ? 'Облако сохраняет прогресс, файл — запасная копия.' : 'Прогресс хранится только в этом браузере.'} <a href="#/settings">Сохранить в файл →</a></div>` : ''}
+  show(`${stale ? `<div class="trap warn"><b>Сделай бэкап прогресса.</b> ${S.backupAt ? 'Последний был ' + plural(Math.floor((Date.now() - S.backupAt) / DAY), 'день', 'дня', 'дней') + ' назад.' : 'Ты ещё ни разу его не делал.'} ${cloudUser() ? 'Облако сохраняет прогресс, файл — запасная копия.' : 'Прогресс хранится только в этом браузере.'} <a href="#/settings">Скачать прогресс →</a></div>` : ''}
   <h1>Сегодня</h1>${method.planWidget()}
   <div class="list">
   ${last ? `<a class="row" href="#/day/${last.id}"><span class="num">☀</span><span><b>${dayName(last.date)} · ${esc(last.title)}</b><small>${esc(last.focus)}</small></span>${days.badge(last.id)}</a>` : ''}
@@ -38,9 +38,9 @@ function settings() {
   <div class="rule">Запасная копия на случай, если что-то случится с облаком или аккаунтом. ${u ? 'Раз в месяц' : 'Раз в неделю'} сохраняй файл и клади его в папку <code>backups</code> проекта или в своё облако (Google Drive и т.п.).</div>
   <table class="ex"><tr><td>Последний бэкап</td><td><b>${S.backupAt ? new Date(S.backupAt).toLocaleString('ru-RU') : 'не было'}</b></td></tr>
   <tr><td>Ответов в тестах</td><td>${n(S.tests.q)}</td></tr><tr><td>Модулей дня начато</td><td>${n(S.days)}</td></tr><tr><td>Карточек</td><td>${n(S.srs)}</td></tr></table>
-  <div class="btns"><button class="btn" id="exp">Сохранить прогресс в файл</button><label class="btn alt" for="imp">Восстановить из файла</label><input type="file" id="imp" accept=".json,application/json" hidden></div>
+  <div class="btns"><button class="btn" id="exp">⬇ Скачать прогресс</button><label class="btn alt" for="imp">Восстановить из файла</label><input type="file" id="imp" accept=".json,application/json" hidden></div>
   <p class="mute" id="msg" aria-live="polite"></p>
-  <h2>Перенос на другое устройство</h2><p class="mute">На старом: «Сохранить в файл». Перекинь файл на новое устройство (телефон, другой ПК). На новом: открой сайт и нажми «Восстановить из файла». Восстановление заменяет весь прогресс на этом устройстве.</p>`, '');
+  <h2>Перенос на другое устройство</h2><p class="mute">На старом: «Скачать прогресс» (или ⬇ в шапке). Перекинь файл на новое устройство (телефон, другой ПК). На новом: открой сайт и нажми «Восстановить из файла». Восстановление заменяет весь прогресс на этом устройстве.</p>`, '');
   const cm = document.getElementById('cmsg'), b = id => document.getElementById(id);
   if (b('cin')) b('cin').onclick = () => { cm.textContent = 'Открываю окно входа Google…'; cloudLogin().then(() => settings()).catch(e => { cm.textContent = 'Вход не удался: ' + (e.code || e.message); }); };
   if (b('csync')) b('csync').onclick = () => { cm.textContent = 'Синхронизирую…'; cloudSyncNow().then(() => { cm.textContent = 'Готово.'; }); };
@@ -74,7 +74,9 @@ function nav(path) {
   route(/^([\w-]+)(\/.*)?$/, (id, rest) => { if (CAT.grammar.some(t => t.id === id && t.ready)) location.replace('#/g/' + id + (rest || '')); else location.replace('#/'); });
   setNavHook(nav);
   // значок облака в шапке
-  const ci = document.createElement('a'); ci.id = 'cloud'; ci.href = '#/settings'; document.querySelector('.bar1').appendChild(ci);
+  const dl = document.createElement('button'); dl.className = 'dlbtn'; dl.innerHTML = '⬇<span> Скачать прогресс</span>'; dl.title = 'Скачать прогресс в файл'; dl.setAttribute('aria-label', 'Скачать прогресс в файл');
+  dl.onclick = () => { exportState(); dl.innerHTML = '✓<span> Скачано</span>'; setTimeout(() => dl.innerHTML = '⬇<span> Скачать прогресс</span>', 1500); };
+  const ci = document.createElement('a'); ci.id = 'cloud'; ci.href = '#/settings'; document.querySelector('.bar1').append(dl, ci);
   const paint = s => { ci.textContent = { ok: '☁', saving: '⟳', offline: '⚠', error: '⚠', signedout: '☁?' }[s] || ''; ci.title = STATUS[s] || ''; ci.className = 'cloud ' + s; };
   onCloud(s => { paint(s); if (location.hash === '#/settings' && !document.activeElement.matches('input,textarea')) settings(); });
   cloudStart(() => { if (!document.activeElement.matches('input,textarea')) render(); });

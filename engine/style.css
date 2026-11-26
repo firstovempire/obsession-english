@@ -138,3 +138,6 @@ label.btn{display:inline-block}
 @media(max-width:520px){.top{padding:8px 12px 0}.nav a{padding:8px 8px 10px;font-size:14px}}
 .bar1 .cloud{margin-left:auto;text-decoration:none;font-size:18px;line-height:1;padding:4px 8px;border-radius:8px;border:1px solid var(--line);color:var(--ok)}
 .bar1 .cloud:empty{display:none}.bar1 .cloud.saving{color:var(--a)}.bar1 .cloud.offline,.bar1 .cloud.error,.bar1 .cloud.signedout{color:var(--bad)}
+.bar1 .dlbtn{margin-left:auto;font:inherit;font-size:14px;font-weight:600;line-height:1;padding:5px 9px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.bar1 .dlbtn:hover{border-color:var(--ink)}.bar1 .dlbtn+.cloud{margin-left:0}
+@media(max-width:520px){.bar1 .dlbtn span{display:none}}
