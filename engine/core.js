@@ -17,8 +17,10 @@ function loadState() {
   return found ? migrate(old) : blank();
 }
 export const S = loadState();
-export const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { console.error(e); } };
-save();
+let saveHook = () => {};
+export const setSaveHook = f => { saveHook = f; };
+export const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { console.error(e); } saveHook(); };
+try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {}
 export const hasData = () => Object.keys(S.tests.q).length + Object.keys(S.days).length + Object.values(S.srs).filter(r => r.n).length > 0;
 export function exportState() {
   S.backupAt = Date.now(); save();

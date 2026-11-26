@@ -136,3 +136,5 @@ main{padding-top:14px}
 code{font-size:.9em;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:0 4px}
 label.btn{display:inline-block}
 @media(max-width:520px){.top{padding:8px 12px 0}.nav a{padding:8px 8px 10px;font-size:14px}}
+.bar1 .cloud{margin-left:auto;text-decoration:none;font-size:18px;line-height:1;padding:4px 8px;border-radius:8px;border:1px solid var(--line);color:var(--ok)}
+.bar1 .cloud:empty{display:none}.bar1 .cloud.saving{color:var(--a)}.bar1 .cloud.offline,.bar1 .cloud.error,.bar1 .cloud.signedout{color:var(--bad)}
