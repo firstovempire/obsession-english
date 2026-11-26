@@ -1,9 +1,8 @@
 /* ТЕМА: Present Simple. Формат вопросов описан в articles-1.js */
-(function(){
 const ex = rows => '<table class="ex">' + rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('') + '</table>';
 
-TOPICS.push({
-id: 'present-simple', group: 'Основа предложения: глагол',
+export default {
+id: 'present-simple', level: 'A1', group: 'Основа предложения: глагол',
 title: 'Present Simple',
 desc: 'Привычки, факты, утверждения, отрицания, do / does, -s',
 modules: [
@@ -198,7 +197,7 @@ questions: [
  "don't":"My phone = it, а [don't] для I, you, we, they.",
  "doesn't":"My phone = it → [doesn't].",
  "isn't":"Isn't не сочетается с чистым глаголом work."}},
-{q:"She doesn't ___ a car.",a:'have',ru:'У неё нет машины.',w:{
+{q:"My brother doesn't ___ a bike.",a:'have',ru:'У моего брата нет велосипеда.',w:{
  has:"Has это have с [-s] внутри, а [-s] уже забрал [doesn't].",
  have:"После [doesn't] чистая форма: have.",
  having:"После [doesn't] форма на -ing не ставится."}},
@@ -276,7 +275,7 @@ questions: [
  do:'They → [do], он стоит после where и перед they.',
  does:'[does] для одного: he, she, it.',
  are:'Are не сочетается с чистым глаголом work.'}},
-{q:"___ you tired?",a:'are',ru:'Ты устал?',w:{
+{q:"___ you hungry?",a:'are',ru:'Ты голоден?',w:{
  do:'[do] нужен, когда есть глагол действия. Tired прилагательное.',
  are:'Глагола действия нет, с you → are.',
  does:'[does] для he, she, it, и только с глаголом.'}},
@@ -359,10 +358,10 @@ questions: [
  'How often':'Ответ twice a week говорит о частоте → How often.',
  'How long':'How long спрашивает о длительности: for two hours.',
  'What time':'What time спрашивает о времени: at six.'}},
-{q:"Какое предложение верное?",a:'I run every day.',ru:'Я бегаю каждый день.',w:{
- 'I every day run.':'Every day из двух слов, между I и глаголом его не ставят. Место в конце.',
- 'I run every day.':'Фраза частоты из нескольких слов стоит в конце.',
- 'I am run every day.':'Am перед обычным глаголом лишнее.'}},
+{q:"Какое предложение верное?",a:'We cook dinner every evening.',ru:'Мы готовим ужин каждый вечер.',w:{
+ 'We every evening cook dinner.':'Every evening из двух слов, между we и глаголом его не ставят. Место в конце.',
+ 'We cook dinner every evening.':'Фраза частоты из нескольких слов стоит в конце.',
+ 'We are cook dinner every evening.':'Are перед обычным глаголом лишнее.'}},
 {q:"Какое предложение верное?",a:"We don't often eat out.",ru:'Мы нечасто едим вне дома.',w:{
  "We often not eat out.":"Not без помощника не работает, нужен [don't].",
  "We don't often eat out.":"Помощник [don't] + often + глагол. Верно.",
@@ -478,5 +477,4 @@ questions: [
  'are belong':'Are с обычным глаголом вместе не стоит.'}},
 ]},
 
-]});
-})();
+]};

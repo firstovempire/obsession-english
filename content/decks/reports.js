@@ -1,6 +1,6 @@
 /* Стартовая колода: самые полезные конструкции из отчётов 11–25 ноября, каждая внутри фразы.
    Редкие слова (desecrated, nemesis, sacred treaty…) сюда специально не взяты: для разговора они почти не нужны. */
-DECK.push(
+export default [
 {en:"I'm trying to understand how society works.", ru:'Я пытаюсь понять, как устроено общество.', note:'try to + глагол'},
 {en:"I keep reading, even when it's hard.", ru:'Я продолжаю читать, даже когда трудно.', note:'keep + -ing, even when'},
 {en:"I make an effort to speak every day.", ru:'Я стараюсь (прилагаю усилия) говорить каждый день.', note:'make an effort to + глагол, а не -ing'},
@@ -26,4 +26,4 @@ DECK.push(
 {en:'Learning gives me pleasure.', ru:'Учёба доставляет мне удовольствие.'},
 {en:"That's the last straw.", ru:'Это последняя капля.'},
 {en:"That's my two cents on the issue.", ru:'Это моё скромное мнение на этот счёт.'}
-);
+];

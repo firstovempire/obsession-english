@@ -1,9 +1,8 @@
 /* ТЕМА: This / that / these / those. Формат вопросов описан в articles-1.js */
-(function(){
 const ex = rows => '<table class="ex">' + rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('') + '</table>';
 
-TOPICS.push({
-id: 'demonstratives', group: 'Существительное и слова перед ним',
+export default {
+id: 'demonstratives', level: 'A1', group: 'Существительное и слова перед ним',
 title: 'This / that / these / those',
 desc: 'Указательные слова и согласование с существительными',
 modules: [
@@ -281,5 +280,4 @@ questions: [
  those:'Далеко, верно, но с [those] было бы ones, а здесь one.'}},
 ]},
 
-]});
-})();
+]};

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><title>Перенос прогресса со старой версии</title>
+<style>body{font:17px/1.5 system-ui,sans-serif;max-width:640px;margin:40px auto;padding:0 18px}button{font:inherit;padding:10px 18px;border-radius:10px;border:0;background:#16202e;color:#fff;cursor:pointer}pre{background:#f3f6fa;padding:10px;border-radius:8px}</style></head>
+<body>
+<h1>Перенос прогресса со старой версии</h1>
+<p>Открой этот файл <b>двойным щелчком с диска</b>, в том же браузере, где пользовался старым сайтом (index.html с диска). Нажми кнопку: скачается файл. Потом на новом сайте зайди в ⚙ → «Восстановить из файла».</p>
+<p><button id="b">Скачать старый прогресс</button></p>
+<pre id="o"></pre>
+<script>
+const out = {}, o = document.getElementById('o');
+['eng-tests-v1', 'eng-days-v1', 'eng-v2'].forEach(k => { const v = localStorage.getItem(k); if (v) try { out[k] = JSON.parse(v); } catch (e) {} });
+o.textContent = Object.keys(out).length ? 'Найдено: ' + Object.keys(out).join(', ') : 'Старый прогресс в этом браузере не найден. Если ты им не пользовался, переносить нечего.';
+document.getElementById('b').onclick = () => {
+  const data = out['eng-v2'] || out, a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(data)], { type: 'application/json' }));
+  a.download = 'english-progress-old.json'; a.click();
+};
+</script>
+</body></html>

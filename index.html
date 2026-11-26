@@ -3,32 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>English: теория и тесты</title>
-<link rel="stylesheet" href="assets/style.css">
+<title>English на автомате</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
+<link rel="stylesheet" href="engine/style.css">
 </head>
 <body>
-<header class="top"><a class="back" id="back">← Назад</a><a class="logo" href="#/">English <span>на автомате</span></a><nav id="crumbs"></nav></header>
-<main id="app"></main>
-
-<!-- ГРАММАТИКА. Новая тема = новый файл в topics/ и одна строка здесь. Порядок строк = порядок на сайте -->
-<script>window.TOPICS = [];</script>
-<script src="topics/to-be.js"></script>
-<script src="topics/present-simple.js"></script>
-<script src="topics/articles-1.js"></script>
-<script src="topics/demonstratives.js"></script>
-
-<!-- МОДУЛИ ДНЯ. Папка = месяц, файл = число: days/2026-11/26.js -->
-<script>window.DAYS = []; window.DECK = []; window.ERRORS = []; window.SNAPSHOTS = [];</script>
-<script src="days/2026-11/26.js"></script>
-
-<!-- ДАННЫЕ: стартовая колода, мои ошибки и контрольные срезы, план -->
-<script src="data/deck-reports.js"></script>
-<script src="data/progress.js"></script>
-<script src="data/week.js"></script>
-<script src="data/guides.js"></script>
-<script src="assets/plan.js"></script>
-
-<script src="assets/day.js"></script>
-<script src="assets/app.js"></script>
+<!-- Этот файл не меняется. Весь контент лежит в content/, оглавление собирает node tools/build.js -->
+<header class="top">
+  <div class="bar1"><a class="back" id="back">← Назад</a><a class="logo" href="#/">English <span>на автомате</span></a></div>
+  <nav id="nav" class="nav"></nav>
+</header>
+<div class="crumbs-wrap"><nav id="crumbs"></nav></div>
+<main id="app"><p class="mute">Загрузка…</p></main>
+<script type="module" src="engine/main.js"></script>
 </body>
 </html>

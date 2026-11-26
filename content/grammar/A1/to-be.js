@@ -1,11 +1,10 @@
 /* ТЕМА: глагол to be (am / is / are). Формат вопросов описан в articles-1.js.
    Правило для тестов: предложения в вопросах НЕ совпадают с примерами из теории, они проверяют то же правило на новом материале. */
-(function(){
 const ex = rows => '<table class="ex">' + rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('') + '</table>';
 const Z = '—';
 
-TOPICS.push({
-id: 'to-be', group: 'Основа предложения: глагол',
+export default {
+id: 'to-be', level: 'A1', group: 'Основа предложения: глагол',
 title: 'To be: am / is / are',
 desc: 'Где по-русски прочерк, там в английском am / is / are',
 modules: [
@@ -242,5 +241,4 @@ questions: [
  am:'Am только с I.'}},
 ]},
 
-]});
-})();
+]};
