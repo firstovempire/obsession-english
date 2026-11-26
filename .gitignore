@@ -1,0 +1,11 @@
+# Личное: остаётся только на этом компьютере, в интернет не попадает
+obsession/
+me/reports/
+backups/
+*.backup.json
+
+# Системное
+.DS_Store
+Thumbs.db
+desktop.ini
+node_modules/
