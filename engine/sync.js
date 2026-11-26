@@ -1,6 +1,6 @@
 /* Облачная синхронизация прогресса через Firebase (Firestore + вход через Google).
    Данные: users/{uid}/parts/{часть} = { data: JSON-строка, updated: ms }.
-   Части: tests, srs, plan, retro, meta, days-ГГГГ (дни по годам, чтобы документы не росли бесконечно).
+   Части: tests, srs, plan, retro, books, meta, days-ГГГГ (дни по годам, чтобы документы не росли бесконечно).
    Как решаются конфликты:
      sent[часть]  — что последним было синхронизировано (хранится в браузере);
      dirty[часть] — когда часть локально изменилась после синхронизации.
@@ -27,7 +27,7 @@ const set = s => { status = s; listeners.forEach(f => { try { f(s); } catch (e) 
 
 /* ---------- части состояния ---------- */
 function parts() {
-  const p = { tests: S.tests, srs: S.srs, plan: S.plan, retro: S.retro, meta: { backupAt: S.backupAt || 0, created: S.created || 0 } };
+  const p = { tests: S.tests, srs: S.srs, plan: S.plan, retro: S.retro, books: S.books || {}, meta: { backupAt: S.backupAt || 0, created: S.created || 0 } };
   for (const id in S.days) { const y = 'days-' + id.slice(0, 4); (p[y] || (p[y] = {}))[id] = S.days[id]; }
   return p;
 }

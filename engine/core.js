@@ -2,7 +2,7 @@
 
 /* ---------- хранилище: один ключ, версия схемы, перенос старых данных ---------- */
 const KEY = 'eng-v2';
-const blank = () => ({ v: 2, tests: { mods: {}, q: {}, exam: {}, timer: true }, days: {}, srs: {}, plan: {}, retro: {}, backupAt: 0, created: Date.now() });
+const blank = () => ({ v: 2, tests: { mods: {}, q: {}, exam: {}, timer: true }, days: {}, srs: {}, plan: {}, retro: {}, books: {}, backupAt: 0, created: Date.now() });
 export function migrate(old) { // old = {'eng-tests-v1': {...}, 'eng-days-v1': {...}}
   const s = blank(), t = old['eng-tests-v1'] || {}, d = old['eng-days-v1'] || {};
   Object.assign(s.tests, t);

@@ -2,6 +2,7 @@
 import { S, save, CAT, loadModule, route, show, crumbs, link, esc, fmt, plain, norm, diff, sayBtns, wireCommon, copyText, dayName, monName, plural, loading } from './core.js';
 import { enrollDay, dueList } from './srs.js';
 import { modScore, mastery, topicEntry, PASS } from './grammar.js';
+import { planReport } from './method.js';
 
 const TYPE = { regular: '', review: 'обзор недели', snapshot: 'срез месяца' };
 export const dayState = id => S.days[id];
@@ -115,7 +116,7 @@ async function dayPage(id) {
     const tests = (d.related || []).filter(r => r.includes('/')).map(r => { const [tid, mid] = r.split('/'), t = topicEntry(tid), mm = t && t.modules.find(x => x.id === mid); return mm ? `${t.title} / ${plain(mm.title)}: ${modScore(tid, mid) == null ? 'не проходил' : modScore(tid, mid) + '%'}` : ''; }).filter(Boolean).join('\n');
     const txt = `=== Модуль дня ${d.date} · ${d.title} ===\nМинут всего: ${s.min || '?'}\n` +
       (d.warmup && d.warmup.length ? `\n--- Разминка ---\n${trReport(d.warmup, s.wu)}\n` : '') +
-      `\n--- Перевод ---\n${trReport(d.translate, s.tr)}\n\n--- Тесты ---\n${tests || '—'}\n\n--- Письмо${d.letter ? ' (ответ ' + d.letter.from + ')' : ''} ---\n${s.write || '—'}\n\n--- Говорение (диктовка) ---\n${s.speak || '—'}\n\n--- Трудно / выписал ---\n${s.hard || '—'}\n\nПовторение: к повтору ${dueList().length}`;
+      `\n--- Перевод ---\n${trReport(d.translate, s.tr)}\n\n--- Тесты ---\n${tests || '—'}\n\n--- Письмо${d.letter ? ' (ответ ' + d.letter.from + ')' : ''} ---\n${s.write || '—'}\n\n--- Говорение (диктовка) ---\n${s.speak || '—'}\n\n--- Трудно / выписал ---\n${s.hard || '—'}\n\nПовторение: к повтору ${dueList().length}` + (planReport() ? `\n\n${planReport()}` : '');
     copyText(txt, document.getElementById('copied'));
   };
 }

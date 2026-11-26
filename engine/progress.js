@@ -4,6 +4,7 @@ import { ERRORS, SNAPSHOTS } from '../me/progress.js';
 import { cardMap, active, LEARNED } from './srs.js';
 import { mastery, modScore, PASS, topicEntry } from './grammar.js';
 import { isDone } from './days.js';
+import { timeChart, factMin } from './method.js';
 
 const errState = e => { const last = e.seen[e.seen.length - 1] || '', after = e.clean.filter(c => c > last).length; return after >= 3 ? ['побеждена', 'ok', 2] : after >= 1 ? ['уходит', 'mid', 1] : ['активна', 'bad', 0]; };
 export const activeErrors = () => ERRORS.filter(e => errState(e)[2] === 0).length;
@@ -38,7 +39,9 @@ function progress() {
   <h2>Грамматика</h2><table class="ex">${ready.map(t => `<tr><td><a href="#/g/${t.id}">${t.level} · ${esc(t.title)}</a></td><td>сдано ${t.modules.filter(x => modScore(t.id, x.id) >= PASS).length} из ${t.modules.length} · автомат ${mastery(t)} из ${t.total}${S.tests.exam[t.id] != null ? ` · экзамен ${S.tests.exam[t.id]}%` : ''}</td></tr>`).join('')}</table>
   <p class="mute">Дорожная карта: готово ${ready.length} тем из ${CAT.grammar.length}.</p>
 
-  <h2>Дисциплина</h2><table class="ex"><tr><td>Модулей дня сделано</td><td><b>${CAT.days.filter(d => isDone(d.id)).length}</b> из ${CAT.days.length}</td></tr><tr><td>Минут (по отчётам модулей)</td><td>${mins}</td></tr></table>
+  <h2 id="time">Время по дням</h2><p class="mute">Из виджета плана на главной: минуты, которые ты вписал у каждого блока, плюс «сверх плана».</p>${timeChart()}
+
+  <h2>Дисциплина</h2><table class="ex"><tr><td>Модулей дня сделано</td><td><b>${CAT.days.filter(d => isDone(d.id)).length}</b> из ${CAT.days.length}</td></tr><tr><td>Всего времени по плану</td><td><b>${Object.keys(S.plan).reduce((a, k) => a + factMin(k), 0)}</b> мин</td></tr><tr><td>Минут (по отчётам модулей)</td><td>${mins}</td></tr></table>
 
   <h2>Контрольные срезы</h2><p class="mute">Раз в месяц одно и то же задание: 2 минуты о себе. Я считаю ошибки и оцениваю уровень.</p>
   <table class="ex">${SNAPSHOTS.map(x => `<tr><td><b>${dayName(x.date)} ${x.date.slice(0, 4)}</b><small class="mute">${esc(x.what)}</small></td><td>уровень <b>${esc(x.level)}</b> · ${x.words} слов · <b>${x.err100}</b> ошибок на 100 слов · опечаток ${x.typos}<small class="mute">${esc(x.note)}</small></td></tr>`).join('')}</table>`,
