@@ -11,7 +11,7 @@ const BACKUP_DAYS = 7;
 
 function todayPage() {
   const last = days.latest(), due = srs.dueList().length, errs = progress.activeErrors();
-  const stale = hasData() && Date.now() - (S.backupAt || 0) > BACKUP_DAYS * DAY;
+  const stale = hasData() && Date.now() - (S.backupAt || S.created || Date.now()) > BACKUP_DAYS * DAY; // первые 7 дней не напоминаем
   show(`${stale ? `<div class="trap warn"><b>Сделай бэкап прогресса.</b> ${S.backupAt ? 'Последний был ' + plural(Math.floor((Date.now() - S.backupAt) / DAY), 'день', 'дня', 'дней') + ' назад.' : 'Ты ещё ни разу его не делал.'} Прогресс хранится только в этом браузере. <a href="#/settings">Сохранить в файл →</a></div>` : ''}
   <h1>Сегодня</h1>${method.planWidget()}
   <div class="list">
