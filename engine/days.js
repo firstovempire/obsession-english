@@ -104,9 +104,20 @@ async function dayPage(id) {
     <div class="rule"><b>Как:</b> 1) подумай 1 минуту, без записей на русском; 2) нажми в поле ниже и включи диктовку <kbd>Win</kbd>+<kbd>H</kbd> (на телефоне микрофон на клавиатуре); 3) говори 1–2 минуты без остановок, ошибки не исправляй; 4) текст после диктовки не редактируй.</div>
     <textarea class="ta" id="speak" rows="6" placeholder="Здесь появится текст диктовки…">${esc(s.speak)}</textarea>`);
   if (d.think) sec('th2', 'Думать на английском сегодня', 'привычка', d.think);
-  sec('rep', 'Отчёт для Claude', 'отправить', `<p class="mute">Скопируй и пришли мне в чат. Я разберу ошибки, и следующий модуль соберу из них.</p>
-    <div class="trrow"><label class="mute" style="white-space:nowrap" for="min">Минут сегодня всего</label><input class="inp" id="min" inputmode="numeric" style="max-width:110px" value="${esc(s.min)}"></div>
-    <textarea class="ta" id="hard" rows="3" placeholder="Что было трудно? Что выписал из видео или shadowing? Процент понимания сцены? (можно по-русски)">${esc(s.hard)}</textarea>
+  /* отчёт: минуты из плана, отдельные поля для видео и чтения, список незаполненного перед копированием */
+  const V = s.vid || {}, F = (k, label, ph, w) => `<label class="rf${w ? ' ' + w : ''}"><span>${label}</span><input class="inp" data-f="${k}" autocomplete="off" placeholder="${ph}" value="${esc(V[k.slice(4)] || '')}"></label>`;
+  sec('rep', 'Отчёт для Claude', 'отправить', `<p class="mute">Заполни, что было сегодня, нажми «Скопировать» и пришли мне в чат. Я разберу ошибки, и следующий модуль соберу из них.</p>
+    <h3>Время</h3>
+    <div class="trrow"><label class="mute" style="white-space:nowrap" for="min">Минут за день</label><input class="inp" id="min" inputmode="numeric" style="max-width:110px" value="${esc(s.min)}" placeholder="${factMin(d.date) ? 'из плана: ' + factMin(d.date) : 'напр. 80'}"><span class="mute" id="minhint"></span></div>
+    <h3>Видео <span class="mute" style="font-weight:400">· если смотрел</span></h3>
+    <div class="rfs">${F('vid.what', 'Что смотрел', 'напр. Over the Garden Wall, 7 серия', 'wide')}${F('vid.p1', 'Понял с 1-го раза, %', 'напр. 50')}${F('vid.p2', 'С последнего раза, %', 'напр. 90')}${F('vid.ear', '«Ухо»: знал, но не узнал', 'напр. 12')}${F('vid.word', '«Слово»: не знал', 'напр. 5')}</div>
+    <label class="rf wide"><span>Фразы из видео (по одной на строку, можно с репликой целиком)</span><textarea class="ta" data-f="vid.phr" rows="3" placeholder="напр. What a nice way to spend our last day">${esc(V.phr || '')}</textarea></label>
+    <label class="rf wide"><span>Что не расслышал и как это звучало</span><input class="inp" data-f="vid.miss" autocomplete="off" placeholder="напр. won't have → «вон афте»" value="${esc(V.miss || '')}"></label>
+    <h3>Чтение</h3>
+    <label class="rf wide"><span>Что читал и сколько</span><input class="inp" id="read" autocomplete="off" placeholder="напр. The Elephant Man, глава 3, 10 страниц, легко" value="${esc(s.read || '')}"></label>
+    <h3>Трудно / заметки</h3>
+    <textarea class="ta" id="hard" rows="3" placeholder="Что было трудно? Что пропустил и почему? Вопросы ко мне (можно по-русски)">${esc(s.hard)}</textarea>
+    <div class="miss" id="miss" aria-live="polite"></div>
     <div class="btns"><button class="btn" id="copy">Скопировать отчёт</button><button class="btn alt" id="done">${s.done ? '✓ Модуль сделан' : 'Отметить модуль сделанным'}</button></div><p class="mute" id="copied" aria-live="polite"></p>`);
 
   const [y, m] = id.split('-');
@@ -135,14 +146,37 @@ async function dayPage(id) {
   paintMarks();
   /* разминка и перевод отмечаются сами, когда проверено каждое предложение */
   const autoMark = () => ['wu', 'tr'].forEach(key => { const items = key === 'wu' ? d.warmup : d.translate; if (!items || !items.length || marks[key]) return; const b = s[key] || {}; if (items.every((_, i) => b[i] && b[i].ok != null)) { const el = document.getElementById('s-' + key); el.classList.add('open'); setMark(key, true); } });
-  wireTr(d, s, autoMark);
-  ['speak', 'write', 'hard', 'min'].forEach(k => { const el = document.getElementById(k); if (el) el.oninput = () => { s[k] = el.value; save(); }; });
+  const ownMin = () => { const n = parseInt(s.min); return isNaN(n) ? null : n; }, minutes = () => ownMin() ?? factMin(d.date);
+  /* чего не хватает в отчёте: показываем до копирования, копировать всё равно можно */
+  const missing = () => {
+    const r = [], cnt = (items, b) => (items || []).filter((_, i) => ((b || {})[i] || {}).ok != null).length, blank = x => !String(x ?? '').trim();
+    if (!minutes() && ownMin() !== 0) r.push('минуты за день (впиши здесь или в плане на главной)');
+    if (d.warmup && d.warmup.length && cnt(d.warmup, s.wu) < d.warmup.length) r.push(`разминка: ${cnt(d.warmup, s.wu)} из ${d.warmup.length}`);
+    if (d.translate && d.translate.length && cnt(d.translate, s.tr) < d.translate.length) r.push(`перевод: ${cnt(d.translate, s.tr)} из ${d.translate.length}`);
+    if (d.write && !(s.write || '').trim()) r.push('письмо Mr. X');
+    if (d.speak && !(s.speak || '').trim()) r.push('говорение (диктовка)');
+    const v = s.vid || {}; if (!blank(v.what) && (blank(v.ear) || blank(v.word))) r.push('видео: «ухо» и «слово»');
+    return r;
+  };
+  const paintMiss = () => {
+    const r = missing(), box = document.getElementById('miss'), f = factMin(d.date), mh = document.getElementById('minhint');
+    box.innerHTML = r.length ? `<b>Не заполнено:</b> ${r.map(esc).join(' · ')}` : '<b>Всё заполнено.</b> Можно копировать.';
+    box.className = 'miss ' + (r.length ? 'warn' : 'ok');
+    mh.textContent = f ? `в плане на главной: ${f} мин${ownMin() != null && ownMin() !== f ? ', в отчёт пойдёт число отсюда' : ''}` : 'в плане на главной минут нет';
+  };
+  ['speak', 'write', 'hard', 'min', 'read'].forEach(k => { const el = document.getElementById(k); if (el) el.oninput = () => { s[k] = el.value; save(); paintMiss(); }; });
+  document.querySelectorAll('[data-f]').forEach(el => el.oninput = () => { const v = s.vid || (s.vid = {}); v[el.dataset.f.slice(4)] = el.value; save(); paintMiss(); });
+  paintMiss();
+  wireTr(d, s, () => { autoMark(); paintMiss(); });
   document.getElementById('done').onclick = e => { s.done = !s.done; save(); e.target.textContent = s.done ? '✓ Модуль сделан' : 'Отметить модуль сделанным'; };
   document.getElementById('copy').onclick = () => {
     const tests = (d.related || []).filter(r => r.includes('/')).map(r => { const [tid, mid] = r.split('/'), t = topicEntry(tid), mm = t && t.modules.find(x => x.id === mid); return mm ? `${t.title} / ${plain(mm.title)}: ${modScore(tid, mid) == null ? 'не проходил' : modScore(tid, mid) + '%'}` : ''; }).filter(Boolean).join('\n');
-    const txt = `=== Модуль дня ${d.date} · ${d.title} ===\nМинут всего: ${s.min || '?'}\n` +
+    const v = s.vid || {}, q = x => String(x ?? '').trim().replace(/%$/, '') || '?';
+    const vid = ['what', 'p1', 'p2', 'ear', 'word', 'phr', 'miss'].some(k => String(v[k] || '').trim()) ? `\n\n--- Видео ---\nЧто: ${q(v.what)}\nПонимание: ${q(v.p1)}% → ${q(v.p2)}%\nУхо ${q(v.ear)} / слово ${q(v.word)}${v.miss ? `\nНе расслышал: ${v.miss}` : ''}${v.phr ? `\nФразы:\n${v.phr.split('\n').map(x => x.trim()).filter(Boolean).map(x => '  ' + x).join('\n')}` : ''}` : '';
+    const read = s.read ? `\n\n--- Чтение ---\n${s.read}` : '', miss = missing();
+    const txt = `=== Модуль дня ${d.date} · ${d.title} ===\nМинут всего: ${minutes() || (ownMin() === 0 ? 0 : '?')}${ownMin() == null && factMin(d.date) ? ' (из плана)' : ''}\n` +
       (d.warmup && d.warmup.length ? `\n--- Разминка ---\n${trReport(d.warmup, s.wu)}\n` : '') +
-      `\n--- Перевод ---\n${trReport(d.translate, s.tr)}\n\n--- Тесты ---\n${tests || '—'}\n\n--- Письмо${d.letter ? ' (ответ ' + d.letter.from + ')' : ''} ---\n${s.write || '—'}\n\n--- Говорение (диктовка) ---\n${s.speak || '—'}\n\n--- Трудно / выписал ---\n${s.hard || '—'}\n\nПовторение: к повтору ${dueList().length}` + (planReport() ? `\n\n${planReport()}` : '');
+      (d.translate && d.translate.length ? `\n--- Перевод ---\n${trReport(d.translate, s.tr)}\n` : '') + `\n--- Тесты ---\n${tests || '—'}\n\n--- Письмо${d.letter ? ' (ответ ' + d.letter.from + ')' : ''} ---\n${s.write || '—'}\n\n--- Говорение (диктовка) ---\n${s.speak || '—'}${vid}${read}\n\n--- Трудно / заметки ---\n${s.hard || '—'}\n\nПовторение: к повтору ${dueList().length}` + (planReport(d.date) ? `\n\n${planReport(d.date)}` : '') + (miss.length ? `\n\nНе заполнено: ${miss.join('; ')}` : '');
     copyText(txt, document.getElementById('copied'));
   };
 }

@@ -220,3 +220,11 @@ h2.bst .pill{font-size:13px;vertical-align:middle}
 .sec.dn .sn{background:var(--ok);color:var(--card)}
 .toc a.ok span{background:var(--ok);color:var(--card)}
 @media(max-width:520px){.sec h2{flex-wrap:wrap}.sec h2 .tag{margin-left:0}.secdone{margin-left:auto}}
+
+/* отчёт: поля */
+.rfs{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:0 10px}
+.rf{display:flex;flex-direction:column;gap:4px;margin:8px 0}.rf span{font-size:14px;color:var(--mute)}
+.rf.wide{grid-column:1/-1}.rf .inp,.rf .ta{width:100%;box-sizing:border-box}
+.miss{border-radius:10px;padding:10px 12px;margin:14px 0 0;font-size:15px;border:1px solid var(--line)}
+.miss.warn{background:var(--badbg);color:var(--ink);border-color:var(--bad)}.miss.warn b{color:var(--bad)}
+.miss.ok{background:var(--okbg)}.miss.ok b{color:var(--ok)}
