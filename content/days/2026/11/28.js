@@ -6,6 +6,12 @@ related: ['prepositions-1/time', 'prepositions-1/place', 'prepositions-1/work', 
 title: 'Где и когда',
 focus: 'in / on / at · work for / at / on · the gym, но at work',
 
+tasks: [
+{block:'Долг с пятницы: монолог 4-3-2', min:15, d:'Вчера ты его пропустил, потому что в модуле не было темы. Тема: <b>«Over the Garden Wall: what is it about?»</b> Говоришь 4 минуты, потом то же самое за 3, потом за 2. Последний прогон диктуешь через Win+H в поле «Говорение» и находишь у себя 3 ошибки.<br><span class="mute">Опора: It\'s a cartoon about two brothers, Wirt and Greg. They are lost in a strange forest. Wirt is… Greg is… In episode 6 they… I like it because… The animation is… It\'s hard for me to understand… because he speaks fast.</span>'},
+{block:'Видео: экстенсив', min:40, d:'Over the Garden Wall, <b>7 и 8 серии</b> подряд, английские субтитры, без пауз и без словаря. После каждой серии скажи вслух 2–3 предложения: <i>In this episode Wirt and Greg… They meet… At the end…</i> Сегодня не выписывай фразы и не считай промахи: задача в объёме.'},
+{block:'Чтение для удовольствия', min:20, d:'The Elephant Man, дальше с того места, где остановился. Не останавливайся на незнакомых словах. Если книга кажется лёгкой, это хорошо: на лёгком тексте мозг учится читать быстро.'}
+],
+
 warmup: [
 {ru:'Какой твой любимый фильм?', a:["What's your favorite film?", "What is your favorite film?", "What's your favorite movie?", "What is your favorite movie?", "What's your favourite film?", "What is your favourite film?", "What's your favourite movie?", "What is your favourite movie?"], topic:'to-be/neg-q', note:'Вчера: «what your favorite game?». Без is вопроса нет: What\'s = What is.'},
 {ru:'Мой друг работает в IT-компании.', a:['My friend works for an IT company.', 'My friend works at an IT company.', 'My friend works in an IT company.'], topic:'articles-1/a-use', note:'Вчера: «works for IT company». For ты запомнил, а an потерял. An IT company.'},
@@ -15,6 +21,9 @@ warmup: [
 ],
 
 review: `
+<p><b>Видео вчера (6 серия).</b> Без субтитров 40–60%, после разбора «понял всё». Так интенсив и должен работать. Промахов <b>17 «ухо» и 9 «слово»</b>, то есть уха в 2 раза больше. Значит, тебе не хватает не слов, а привычки к звуку. Поэтому shadowing в плане важнее, чем выписывать слова.</p>
+<div class="fix"><span><b>won't have</b> → «уоун-тэв» · <b>parade</b> → «пэ-РЭЙД»</span><span class="mute">В быстрой речи <b>h</b> в have, he, him, her почти всегда пропадает, и <b>t</b> прилипает к следующему слову: won't have → «уоунтэв», tell him → «тэлим». В parade первая гласная слабая, «пэ», почти не слышна, ударение на второй слог, а конечное d тихое. Поэтому оно похоже на pray. Это пример «уха», а не «слова»: оба слова ты знал.</span></div>
+<p class="mute">Твои фразы с видео я добавил в повторение (колода «Из видео»). Suck on не взял, это грубовато и пока не нужно. Act natural взял, это полезно. «Put up» без контекста может значить что угодно, поэтому взял самое ходовое значение: put up with = терпеть. Если в серии было другое, пришли реплику целиком.</p>
 <p><b>Итог вчера.</b> Тесты: 93–100%. Перевод с первой попытки: <b>3 из 12</b>. Позавчера было 4 из 10, то есть лучше не стало. Правило ты узнаёшь в тесте, а в своём предложении теряешь.</p>
 <p>Отдельная беда: <b>6 опечаток в 17 предложениях</b> (quet, tou, engeener, interestig, inderstand, quclky). Твоё «Spealing quclky is hard for me» грамматически верное, я добавил этот вариант в ответы. Но засчитать его с такими буквами нельзя. С сегодняшнего дня перед Enter перечитывай предложение по буквам. Это 3 секунды.</p>
 <p>И ещё: в отчёте «Минут всего: ?». Отмечай минуты в плане и жми «Закончить день», иначе прогресс по времени не виден.</p>

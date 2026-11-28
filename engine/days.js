@@ -85,6 +85,7 @@ async function dayPage(id) {
   const sec = (key, title, tagT, body) => parts.push({ key, title, html: `<section class="sec" id="s-${key}"><h2><span class="sn">${++n}</span>${title}<span class="tag">${tagT}</span></h2>${body}</section>` });
   const due = dueList().length;
   sec('dyn', 'Итоги и динамика', 'посмотреть', dynamicsHtml(d.date, factMin));
+  if (d.tasks && d.tasks.length) sec('tk', 'Задания для блоков плана', 'план', `<p class="mute">Что именно делать в блоках сегодняшнего плана, кроме модуля. Темы и материал подобраны под тебя.</p><div class="steps">${d.tasks.map(t => `<div class="rule"><b>${t.min ? t.min + '′ · ' : ''}${esc(t.block)}</b><br>${t.d}</div>`).join('')}</div>`);
   sec('rev', 'Повторение фраз', 'вспомнить', `${G('srs')}<p>${due ? `Сегодня к повтору <b>${due}</b>. Сделай их первыми, пока свежая голова.` : 'На сегодня всё повторено.'}</p><div class="btns sm"><a class="btn ${due ? '' : 'alt'}" href="#/review">Открыть повторение</a></div>`);
   if (d.warmup && d.warmup.length) sec('wu', 'Разминка: старые темы', 'вспомнить', `<p class="mute">Темы прошлых дней на новых предложениях. Если ошибся, сначала открой тему и повтори её, потом иди дальше.</p>${trHtml(d.warmup, 'wu', s)}`);
   if (d.review) sec('err', 'Разбор твоих ошибок', 'понять', d.review);

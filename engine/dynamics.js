@@ -19,6 +19,7 @@ const METRICS = [
   { k: 'tr', t: 'Перевод с первой попытки', v: x => pct(x.tr), unit: '%', better: 'up', max: 100 },
   { k: 'letter', t: 'Слов в письме Mr. X', v: x => x.letter, unit: '', better: 'up' },
   { k: 'typos', t: 'Опечаток в переводе', v: x => x.typos, unit: '', better: 'down' },
+  { k: 'ear', t: 'Видео: не узнал на слух', v: x => x.ear, unit: '', better: 'down', opt: 1 },
   { k: 'act', t: 'Активных ошибок', v: x => ERRORS.filter(e => (errState(e, x.date) || [])[2] === 0).length, unit: '', better: 'down' },
 ];
 
@@ -49,12 +50,12 @@ export function dynamicsHtml(dayDate, minutesOf) {
   if (!rows.length) return '<p class="mute">Это первый модуль: сравнивать пока не с чем. С завтрашнего дня здесь будут итоги и графики.</p>';
   const cur = rows[rows.length - 1], prev = rows[rows.length - 2];
 
-  const tiles = METRICS.concat([{ k: 'min', t: 'Минут за день', v: x => x.min, unit: '', better: 'up' }]).map(m => {
+  const tiles = METRICS.filter(m => !m.opt || m.v(cur) != null).concat([{ k: 'min', t: 'Минут за день', v: x => x.min, unit: '', better: 'up' }]).map(m => {
     const v = m.v(cur);
-    return `<div class="kpi"><small class="mute">${m.t}</small><b>${v == null ? '?' : v + m.unit}</b>${m.k === 'tr' && cur.tr ? `<small class="mute">${cur.tr[0]} из ${cur.tr[1]}</small>` : ''}${delta(m, v, prev && m.v(prev))}</div>`;
+    return `<div class="kpi"><small class="mute">${m.t}</small><b>${v == null ? '?' : v + m.unit}</b>${m.k === 'tr' && cur.tr ? `<small class="mute">${cur.tr[0]} из ${cur.tr[1]}</small>` : ''}${m.k === 'ear' && cur.word != null ? `<small class="mute">и не знал слова: ${cur.word}</small>` : ''}${delta(m, v, prev && m.v(prev))}</div>`;
   }).join('');
 
-  const charts = METRICS.map(m => `<figure class="mfig"><figcaption>${m.t}<small class="mute"> · ${m.better === 'up' ? 'выше = лучше' : 'ниже = лучше'}</small></figcaption>${bars(m, rows)}</figure>`).join('');
+  const charts = METRICS.filter(m => !m.opt || rows.some(r => m.v(r) != null)).map(m => `<figure class="mfig"><figcaption>${m.t}<small class="mute"> · ${m.better === 'up' ? 'выше = лучше' : 'ниже = лучше'}</small></figcaption>${bars(m, rows)}</figure>`).join('');
 
   /* ошибки: строки = ошибки, столбцы = отчёты */
   const dates = rows.map(r => r.date);
