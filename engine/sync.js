@@ -33,7 +33,12 @@ function parts() {
 }
 function setPart(name, data) {
   if (name === 'meta') { S.backupAt = data.backupAt || 0; S.created = data.created || S.created; return; }
-  if (name.startsWith('days-')) { const y = name.slice(5); for (const id in S.days) if (id.startsWith(y)) delete S.days[id]; Object.assign(S.days, data); return; }
+  if (name.startsWith('days-')) { // объекты дней обновляем на месте: открытая страница модуля держит ссылку на них
+    const y = name.slice(5);
+    for (const id in S.days) if (id.startsWith(y) && !(id in data)) delete S.days[id];
+    for (const id in data) { const o = S.days[id]; if (o === data[id]) continue; if (o && typeof o === 'object') { const v = { ...data[id] }; for (const k in o) delete o[k]; Object.assign(o, v); } else S.days[id] = data[id]; }
+    return;
+  }
   S[name] = data;
 }
 const isObj = x => x && typeof x === 'object' && !Array.isArray(x);
