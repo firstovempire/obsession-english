@@ -2,6 +2,8 @@
    ERRORS: твои типичные ошибки. seen = даты отчётов, где ошибка была; clean = даты, где был шанс ошибиться, но ошибки не было.
      Статус: ошибка была в последнем отчёте → «активна»; 1–2 чистых отчёта подряд → «уходит»; 3 и больше → «побеждена».
      Если в один день было два текста, второй пишется как 'ГГГГ-ММ-ДД.1' (так он сортируется после первого).
+   DAILY: цифры каждого отчёта (заполняю я): tr/wu = [верно с первой попытки, всего], typos = опечатки в переводе и разминке,
+     tests = средний % тестов дня, letter / speak = слов в письме и в диктовке, min = минут (null = не указано).
    SNAPSHOTS: контрольные срезы (раз в месяц + стартовый). err100 = ошибок на 100 слов без опечаток. */
 export const ERRORS = [
 {id:'be-missing', title:'Пропуск am / is / are', bad:"I from Germany · what your favorite game? · it worth it", good:"I'm from Germany · What's your favorite game? · it's worth it", topic:'to-be', seen:['2026-11-26','2026-11-27'], clean:['2026-11-26.1']},
@@ -22,6 +24,11 @@ export const ERRORS = [
 {id:'double-verb', title:'Два глагола подряд', bad:"I'm studying to study English", good:"I'm learning English", topic:'to-be/or-verb', seen:['2026-11-26'], clean:['2026-11-26.1']},
 {id:'native', title:'native вместо native speakers', bad:'speak to native', good:'speak with native speakers', topic:'', seen:['2026-11-26'], clean:['2026-11-26.1']},
 {id:'cap-i', title:'i с маленькой буквы', bad:'i am not german', good:'I am not German', topic:'', seen:['2026-11-26','2026-11-27'], clean:['2026-11-26.1']}
+];
+
+export const DAILY = [
+{date:'2026-11-26', tr:[4,10], wu:null, typos:1, tests:98, letter:85, speak:90, min:72},
+{date:'2026-11-27', tr:[3,12], wu:[2,5], typos:6, tests:99, letter:124, speak:136, min:null}
 ];
 
 export const SNAPSHOTS = [

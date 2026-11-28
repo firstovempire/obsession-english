@@ -184,3 +184,17 @@ h2.bst .pill{font-size:13px;vertical-align:middle}
 .pb.rd b{display:block}.pb.rd small{color:var(--mute);font-size:13px}
 @media(max-width:520px){.book{flex-direction:column}.bbtn{flex-direction:row}}
 .pb label input{flex:none}.pb .pa{min-width:62px;justify-content:flex-end}
+
+/* Итоги и динамика */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:10px 0}
+.kpi{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.kpi b{font-size:26px;line-height:1.2}.kpi small{font-size:13px}
+.dl.up{color:var(--ok);font-weight:600}.dl.dn{color:var(--bad);font-weight:600}
+.mfigs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.mfig{margin:0;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.mfig figcaption{font-size:14px;font-weight:600;margin-bottom:4px}
+.mini{width:100%;height:auto;display:block}
+.mini .base{stroke:var(--line);stroke-width:1}.mini .bar{fill:var(--a);opacity:.55}.mini .bar.last{opacity:1}
+.mini g:hover .bar{opacity:1}
+.mini .ax{font-size:10px;fill:var(--mute);text-anchor:middle}.mini .val{font-size:11px;font-weight:700;fill:var(--ink);text-anchor:middle}
+.scroll{overflow-x:auto}.etl .ed{text-align:center;width:44px;font-size:14px}.etl td.ed.bad{color:var(--bad)}.etl td.ed.ok{color:var(--ok)}

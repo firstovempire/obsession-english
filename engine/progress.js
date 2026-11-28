@@ -6,7 +6,8 @@ import { mastery, modScore, PASS, topicEntry } from './grammar.js';
 import { isDone } from './days.js';
 import { timeChart, factMin } from './method.js';
 
-const errState = e => { const last = e.seen[e.seen.length - 1] || '', after = e.clean.filter(c => c > last).length; return after >= 3 ? ['побеждена', 'ok', 2] : after >= 1 ? ['уходит', 'mid', 1] : ['активна', 'bad', 0]; };
+import { errState as errAt } from './dynamics.js';
+const errState = e => errAt(e) || ['активна', 'bad', 0];
 export const activeErrors = () => ERRORS.filter(e => errState(e)[2] === 0).length;
 
 function progress() {
