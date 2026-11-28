@@ -62,6 +62,14 @@ function nav(path) {
   document.getElementById('nav').innerHTML = NAV.map(([h, t, title]) => `<a href="#/${h}" class="${sect === h ? 'on' : ''}" ${title ? `title="${title}" aria-label="${title}"` : ''}>${t}${h === 'review' && due ? `<span class="dot">${due}</span>` : ''}</a>`).join('');
 }
 
+/* офлайн и установка на телефон: манифест + service worker (sw.js в корне сайта) */
+function offlineSetup() {
+  /* манифест и иконки подключены в index.html */
+  const local = ['localhost', '127.0.0.1'].includes(location.hostname);
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || local)) navigator.serviceWorker.register('sw.js').catch(e => console.warn('офлайн недоступен', e));
+}
+offlineSetup();
+
 (async function start() {
   try { await loadCatalog(); } catch (e) {
     document.getElementById('app').innerHTML = `<h1>Сайт не загрузился</h1><p>Не удалось прочитать <code>content/catalog.json</code>. Если открываешь файл с диска, открой сайт по ссылке GitHub Pages: модули работают только через сервер.</p>`; return;

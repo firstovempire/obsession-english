@@ -90,7 +90,7 @@ async function push() {
     await Promise.all(names.map(n => fb.fs.setDoc(fb.fs.doc(col(), n), { data: json[n], updated: now })));
     names.forEach(n => { sent[n] = json[n]; if (JSON.stringify(parts()[n]) === json[n]) delete dirty[n]; });
     persist(); lastSync = Date.now(); set(navigator.onLine ? 'ok' : 'offline');
-  } catch (e) { console.error(e); set('error'); }
+  } catch (e) { console.error(e); set(navigator.onLine ? 'error' : 'offline'); }
 }
 function schedule() { if (!user) return; markDirty(); clearTimeout(timer); set('saving'); timer = setTimeout(push, DEBOUNCE); }
 
@@ -107,7 +107,7 @@ async function connect() {
     let ch = false;
     s.docChanges().forEach(c => { if (!c.doc.metadata.hasPendingWrites && receive(c.doc.id, c.doc.data())) ch = true; });
     if (ch) { persist(); save(); lastSync = Date.now(); set('ok'); onChange(); }
-  }, e => { console.error(e); set('error'); });
+  }, e => { console.error(e); set(navigator.onLine ? 'error' : 'offline'); });
   lastSync = Date.now(); set('ok');
 }
 
@@ -121,9 +121,9 @@ export async function cloudStart(cb) {
     fb.auth.onAuthStateChanged(fb.A, async u => {
       const was = user && user.uid; user = u;
       if (!u) { if (unsub) unsub(); unsub = null; set('signedout'); return; }
-      if (was !== u.uid) { try { await connect(); } catch (e) { console.error(e); set('error'); } }
+      if (was !== u.uid) { try { await connect(); } catch (e) { console.error(e); set(navigator.onLine ? 'error' : 'offline'); } }
     });
-  } catch (e) { console.error(e); set('error'); }
+  } catch (e) { console.error(e); set(navigator.onLine ? 'error' : 'offline'); }
 }
 export async function cloudLogin() {
   await load();

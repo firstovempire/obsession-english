@@ -38,7 +38,7 @@ export function importState(obj) {
 export let CAT = null;
 export async function loadCatalog() { CAT = await (await fetch('content/catalog.json', { cache: 'no-cache' })).json(); return CAT; }
 const cache = new Map();
-export const loadModule = file => { if (!cache.has(file)) cache.set(file, import('../' + file + '?v=' + encodeURIComponent(CAT.built))); return cache.get(file); };
+export const loadModule = file => { if (!cache.has(file)) { const p = import('../' + file + '?v=' + encodeURIComponent(CAT.built)); p.catch(() => cache.delete(file)); cache.set(file, p); } return cache.get(file); }; // неудачная загрузка (офлайн) не запоминается
 
 /* ---------- даты ---------- */
 export const MON = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
