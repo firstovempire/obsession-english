@@ -52,10 +52,10 @@ export const plural = (n, a, b, c) => { const k = n % 100, j = n % 10; return n 
 
 /* ---------- текст ---------- */
 export const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-const CLS = { a: 'a', an: 'a', 'a / an': 'a', the: 'the', '—': 'zero', this: 'a', these: 'a', that: 'the', those: 'the', do: 'a', "don't": 'a', does: 'the', "doesn't": 'the', '-s': 'the' };
+const CLS = { a: 'a', an: 'a', 'a / an': 'a', the: 'the', '—': 'zero', this: 'a', these: 'a', that: 'the', those: 'the', do: 'a', "don't": 'a', does: 'the', "doesn't": 'the', '-s': 'the', in: 'a', on: 'the', at: 'at', for: 'for' };
 export const cls = x => CLS[String(x).toLowerCase()];
 export const tag = x => cls(x) ? `<span class="ar ar-${cls(x)}">${x}</span>` : x;
-export const fmt = s => String(s).replace(/\[(a \/ an|an|a|doesn't|don't|does|do|-s|these|those|this|that|the|—)\]/gi, (m, x) => tag(x));
+export const fmt = s => String(s).replace(/\[(a \/ an|an|at|a|doesn't|don't|does|do|-s|these|those|this|that|the|in|on|for|—)\]/gi, (m, x) => tag(x));
 export const plain = s => String(s).replace(/\[|\]/g, '');
 const CON = { "i'm": 'i am', "you're": 'you are', "we're": 'we are', "they're": 'they are', "he's": 'he is', "she's": 'she is', "it's": 'it is', "that's": 'that is', "what's": 'what is', "there's": 'there is', "don't": 'do not', "doesn't": 'does not', "isn't": 'is not', "aren't": 'are not', "can't": 'cannot', "i've": 'i have', "let's": 'let us', "i'd": 'i would', "won't": 'will not' };
 export const norm = s => String(s).toLowerCase().replace(/[’`]/g, "'").replace(/[^a-z0-9' ]+/g, ' ').replace(/\s+/g, ' ').trim()

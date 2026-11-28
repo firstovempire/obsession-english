@@ -4,18 +4,24 @@
      Если в один день было два текста, второй пишется как 'ГГГГ-ММ-ДД.1' (так он сортируется после первого).
    SNAPSHOTS: контрольные срезы (раз в месяц + стартовый). err100 = ошибок на 100 слов без опечаток. */
 export const ERRORS = [
-{id:'be-missing', title:'Пропуск am / is / are', bad:'my English in beginner stage', good:'My English is at a beginner level', topic:'to-be', seen:['2026-11-26'], clean:['2026-11-26.1']},
-{id:'do-be', title:'don\'t вместо am not, и наоборот', bad:"I don't sure · I'm not understand it", good:"I'm not sure · I don't understand it", topic:'to-be/or-verb', seen:['2026-11-26.1'], clean:[]},
-{id:'ps-s', title:'Окончание -s в Present Simple', bad:'he lives and work · I makes · societies works', good:'he lives and works · I make · societies work', topic:'present-simple/s', seen:['2026-11-26.1'], clean:['2026-11-26.2']},
-{id:'article-a', title:'Пропуск a / an перед профессией и предметом', bad:'I work in IT company · I am creator', good:'I work in an IT company · I am a creator', topic:'articles-1/a-use', seen:['2026-11-26.1','2026-11-26.2'], clean:[]},
-{id:'no-subject', title:'Нет подлежащего (it)', bad:'hard, but is interesting', good:"hard, but it's interesting / hard but interesting", topic:'', seen:['2026-11-26.1'], clean:[]},
-{id:'ing-subject', title:'Действие как подлежащее без -ing', bad:'Learn something makes brain more clever', good:'Learning something makes your brain stronger', topic:'', seen:['2026-11-26.1'], clean:[]},
-{id:'caps', title:'Заглавные: имена, города, начало предложения', bad:'berlin · tomas ligotty · but we should', good:'Berlin · Thomas Ligotti · But we should', topic:'', seen:['2026-11-26.1','2026-11-26.2'], clean:[]},
+{id:'be-missing', title:'Пропуск am / is / are', bad:"I from Germany · what your favorite game? · it worth it", good:"I'm from Germany · What's your favorite game? · it's worth it", topic:'to-be', seen:['2026-11-26','2026-11-27'], clean:['2026-11-26.1']},
+{id:'do-be', title:'don\'t вместо am not, и наоборот', bad:"I don't sure · I'm not understand it", good:"I'm not sure · I don't understand it", topic:'to-be/or-verb', seen:['2026-11-26.1'], clean:['2026-11-27']},
+{id:'ps-s', title:'Окончание -s в Present Simple', bad:'he studies math and watch TV · he lives and work', good:'he studies math and watches TV · he lives and works', topic:'present-simple/s', seen:['2026-11-26.1','2026-11-27'], clean:['2026-11-26.2']},
+{id:'article-a', title:'Пропуск a / an перед профессией и предметом', bad:'works for IT company · Workflow is app', good:'works for an IT company · Workflow is an app', topic:'articles-1/a-use', seen:['2026-11-26.1','2026-11-26.2','2026-11-27'], clean:[]},
+{id:'prep', title:'Предлоги in / on / at / for', bad:'work on a hospital · works on a factory · on a weekend', good:'work in a hospital · works at a factory · on weekends', topic:'prepositions-1', seen:['2026-11-26.1','2026-11-27'], clean:[]},
+{id:'false-friend', title:'Ложные друзья', bad:'fabric (завод) · mode / mood (режим) · fantastic world · serials', good:'factory · sleep schedule · fantasy world · TV series', topic:'', seen:['2026-11-26.1','2026-11-27'], clean:[]},
+{id:'no-subject', title:'Нет подлежащего (it, I)', bad:'hard, but is interesting · Then learn English', good:"hard, but it's interesting · Then I learn English", topic:'', seen:['2026-11-26.1','2026-11-27'], clean:[]},
+{id:'ing-subject', title:'Действие как подлежащее без -ing', bad:'Learn something makes brain more clever', good:'Learning something makes your brain stronger', topic:'', seen:['2026-11-26.1'], clean:['2026-11-27']},
+{id:'verb-verb', title:'Глагол сразу после like / want без to или -ing', bad:'He likes play the guitar', good:'He likes playing the guitar / He likes to play the guitar', topic:'', seen:['2026-11-27'], clean:[]},
+{id:'cont-habit', title:'is walking вместо walks для привычки', bad:'every day he is walking · he is usually walking', good:'every night he walks · he usually walks', topic:'present-simple', seen:['2026-11-27'], clean:[]},
+{id:'adj-adv', title:'Наречие вместо прилагательного', bad:'loudly places · change faster (= быстро)', good:'loud / noisy places · change quickly', topic:'', seen:['2026-11-27'], clean:[]},
+{id:'typos', title:'Опечатки при переводе (больше 2 за модуль)', bad:'quet · tou · engeener · interestig · inderstand · quclky', good:'quiet · you · engineer · interesting · understand · quickly', topic:'', seen:['2026-11-27'], clean:[]},
+{id:'caps', title:'Заглавные: имена, города, начало предложения', bad:'germany · aristotle · english · darksoulls', good:'Germany · Aristotle · English · Dark Souls', topic:'', seen:['2026-11-26.1','2026-11-26.2','2026-11-27'], clean:[]},
 {id:'to-ing', title:'to + -ing вместо to + глагол', bad:'make an effort to writing', good:'make an effort to write', topic:'', seen:['2026-11-26'], clean:['2026-11-26.1']},
-{id:'country', title:'Страна или национальность', bad:'I live in German', good:'I live in Germany', topic:'to-be/which', seen:['2026-11-26'], clean:['2026-11-26.1']},
+{id:'country', title:'Страна или национальность', bad:'I live in German', good:'I live in Germany', topic:'to-be/which', seen:['2026-11-26'], clean:['2026-11-26.1','2026-11-27']},
 {id:'double-verb', title:'Два глагола подряд', bad:"I'm studying to study English", good:"I'm learning English", topic:'to-be/or-verb', seen:['2026-11-26'], clean:['2026-11-26.1']},
 {id:'native', title:'native вместо native speakers', bad:'speak to native', good:'speak with native speakers', topic:'', seen:['2026-11-26'], clean:['2026-11-26.1']},
-{id:'cap-i', title:'i с маленькой буквы', bad:'i want', good:'I want', topic:'', seen:['2026-11-26'], clean:['2026-11-26.1']}
+{id:'cap-i', title:'i с маленькой буквы', bad:'i am not german', good:'I am not German', topic:'', seen:['2026-11-26','2026-11-27'], clean:['2026-11-26.1']}
 ];
 
 export const SNAPSHOTS = [

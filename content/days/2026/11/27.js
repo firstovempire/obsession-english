@@ -90,8 +90,8 @@ translate: [
 {ru:'Я не понимаю этот фильм.', a:["I don't understand this film.", "I don't understand this movie."]},
 {ru:'Твоя мама работает в больнице?', a:['Does your mom work in a hospital?', 'Does your mother work in a hospital?', 'Does your mum work in a hospital?', 'Does your mom work at a hospital?', 'Does your mother work at a hospital?', 'Does your mum work at a hospital?'], note:'Does + work без -s.'},
 {ru:'Холодно, и я не хочу выходить.', a:["It's cold, and I don't want to go out.", "It's cold and I don't want to go out."], note:'«Холодно» → It\'s cold.'},
-{ru:'Мистер Икс не любит шумные места.', a:["Mr. X doesn't like noisy places.", "Mr X doesn't like noisy places."]},
-{ru:'Мне сложно говорить быстро.', a:["It's hard for me to speak fast.", "It's hard for me to speak quickly.", "It's difficult for me to speak fast.", "It's difficult for me to speak quickly."], note:'«Мне сложно» → It\'s hard for me to…'}
+{ru:'Мистер Икс не любит шумные места.', a:["Mr. X doesn't like noisy places.", "Mr X doesn't like noisy places.", "Mr. X doesn't like loud places.", "Mr X doesn't like loud places.", "Mister X doesn't like noisy places.", "Mister X doesn't like loud places."]},
+{ru:'Мне сложно говорить быстро.', a:["It's hard for me to speak fast.", "Speaking fast is hard for me.", "Speaking quickly is hard for me.", "Speaking fast is difficult for me.", "Speaking quickly is difficult for me.", "It's hard for me to speak quickly.", "It's difficult for me to speak fast.", "It's difficult for me to speak quickly."], note:'«Мне сложно» → It\'s hard for me to…'}
 ],
 
 letter: {

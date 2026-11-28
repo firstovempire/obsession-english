@@ -1,5 +1,5 @@
 {
- "built": "2026-11-26T17:08:50.414Z",
+ "built": "2026-11-28T00:23:18.255Z",
  "groups": [
   "Основа предложения: глагол",
   "Времена",
@@ -115,7 +115,7 @@
    "desc": "Когда a, когда an, когда the и когда артикль не нужен",
    "file": "content/grammar/A1/articles-1.js",
    "ready": true,
-   "total": 101,
+   "total": 102,
    "modules": [
     {
      "id": "basics",
@@ -151,13 +151,43 @@
      "id": "fixed",
      "title": "Готовые фразы",
      "desc": "Дом, работа, транспорт, время суток",
-     "n": 14
+     "n": 15
     },
     {
      "id": "mix",
      "title": "Всё вместе",
      "desc": "Смешанные ситуации и поиск ошибок",
      "n": 20
+    }
+   ]
+  },
+  {
+   "id": "prepositions-1",
+   "level": "A1",
+   "group": "Предлоги и связки",
+   "title": "Предлоги места и времени: in / on / at",
+   "desc": "Когда in, когда on, когда at, и где предлог не нужен",
+   "file": "content/grammar/A1/prepositions-1.js",
+   "ready": true,
+   "total": 40,
+   "modules": [
+    {
+     "id": "time",
+     "title": "Время: at, on, in",
+     "desc": "Часы, дни, месяцы и слова без предлога",
+     "n": 14
+    },
+    {
+     "id": "place",
+     "title": "Место: in, on, at",
+     "desc": "Внутри, на поверхности, в точке",
+     "n": 13
+    },
+    {
+     "id": "work",
+     "title": "Работа и места: for, at, on, as",
+     "desc": "work for / at / on / as, go to the gym, go home",
+     "n": 13
     }
    ]
   },
@@ -217,13 +247,6 @@
    "level": "A1",
    "group": "Модальные глаголы",
    "title": "Can / can't",
-   "ready": false
-  },
-  {
-   "id": "prepositions-1",
-   "level": "A1",
-   "group": "Предлоги и связки",
-   "title": "Предлоги места и времени: in / on / at",
    "ready": false
   },
   {
@@ -449,6 +472,23 @@
     "articles-1/a-use"
    ],
    "file": "content/days/2026/11/27.js",
+   "nTr": 12,
+   "nPh": 12,
+   "hasLetter": true
+  },
+  {
+   "id": "2026-11-28",
+   "date": "2026-11-28",
+   "type": "regular",
+   "title": "Где и когда",
+   "focus": "in / on / at · work for / at / on · the gym, но at work",
+   "related": [
+    "prepositions-1/time",
+    "prepositions-1/place",
+    "prepositions-1/work",
+    "articles-1/fixed"
+   ],
+   "file": "content/days/2026/11/28.js",
    "nTr": 12,
    "nPh": 12,
    "hasLetter": true
@@ -804,6 +844,90 @@
    "note": "Me neither: ответ на отрицание (I don't like it. Me neither.)",
    "src": "27 ноября · Мой обычный день",
    "day": "2026-11-27"
+  },
+  {
+   "en": "My sleep schedule is a mess.",
+   "ru": "У меня сбит режим сна.",
+   "note": "не mode, не mood",
+   "src": "28 ноября · Где и когда",
+   "day": "2026-11-28"
+  },
+  {
+   "en": "I'm trying to fix my sleep schedule.",
+   "ru": "Я пытаюсь наладить режим.",
+   "note": "",
+   "src": "28 ноября · Где и когда",
+   "day": "2026-11-28"
+  },
+  {
+   "en": "I work from home.",
+   "ru": "Я работаю из дома, удалённо.",
+   "note": "",
+   "src": "28 ноября · Где и когда",
+   "day": "2026-11-28"
+  },
+  {
+   "en": "He works at a factory.",
+   "ru": "Он работает на заводе.",
+   "note": "factory, не fabric (это ткань)",
+   "src": "28 ноября · Где и когда",
+   "day": "2026-11-28"
+  },
+  {
+   "en": "What do you do on weekends?",
+   "ru": "Что ты делаешь по выходным?",
+   "note": "",
+   "src": "28 ноября · Где и когда",
+   "day": "2026-11-28"
+  },
+  {
+   "en": "See you on Monday!",
+   "ru": "Увидимся в понедельник!",
+   "note": "",
+   "src": "28 ноября · Где и когда",
+   "day": "2026-11-28"
+  },
+  {
+   "en": "I'm at work right now.",
+   "ru": "Я сейчас на работе.",
+   "note": "at work, не on work",
+   "src": "28 ноября · Где и когда",
+   "day": "2026-11-28"
+  },
+  {
+   "en": "I go to the gym after work.",
+   "ru": "После работы я хожу в зал.",
+   "note": "the gym, но after work",
+   "src": "28 ноября · Где и когда",
+   "day": "2026-11-28"
+  },
+  {
+   "en": "in my free time",
+   "ru": "в свободное время",
+   "note": "",
+   "src": "28 ноября · Где и когда",
+   "day": "2026-11-28"
+  },
+  {
+   "en": "I'm into video games.",
+   "ru": "Я увлекаюсь видеоиграми.",
+   "note": "",
+   "src": "28 ноября · Где и когда",
+   "day": "2026-11-28"
+  },
+  {
+   "en": "Maybe.",
+   "ru": "Может быть.",
+   "note": "одним словом",
+   "src": "28 ноября · Где и когда",
+   "day": "2026-11-28"
+  },
+  {
+   "en": "What do you think about it?",
+   "ru": "Что ты об этом думаешь?",
+   "note": "",
+   "src": "28 ноября · Где и когда",
+   "day": "2026-11-28"
   }
  ]
 }

@@ -16,12 +16,12 @@ export default [
   {id:'to-be',            level:'A1', group:'Основа предложения: глагол', title:'To be: am / is / are'},
   {id:'present-simple',   level:'A1', group:'Основа предложения: глагол', title:'Present Simple'},
   {id:'articles-1',       level:'A1', group:'Существительное и слова перед ним', title:'Articles I: a / an / the'},
+  {id:'prepositions-1',   level:'A1', group:'Предлоги и связки', title:'Предлоги места и времени: in / on / at'},  // поднята 28.11: в отчётах постоянно on a hospital, on fabric
   {id:'demonstratives',   level:'A1', group:'Существительное и слова перед ним', title:'This / that / these / those'},
   {id:'plurals',          level:'A1', group:'Существительное и слова перед ним', title:'Множественное число: -s, -es, people, children'},
   {id:'pronouns',         level:'A1', group:'Местоимения', title:'I / me / my / mine'},
   {id:'there-is',         level:'A1', group:'Основа предложения: глагол', title:'There is / there are'},
   {id:'can',              level:'A1', group:'Модальные глаголы', title:'Can / can\'t'},
-  {id:'prepositions-1',   level:'A1', group:'Предлоги и связки', title:'Предлоги места и времени: in / on / at'},
   // A2
   {id:'present-continuous', level:'A2', group:'Времена', title:'Present Continuous'},
   {id:'simple-vs-continuous', level:'A2', group:'Времена', title:'Present Simple или Continuous'},
