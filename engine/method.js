@@ -23,26 +23,33 @@ const num = v => Math.max(0, Math.min(900, parseInt(v) || 0));
 export const factMin = k => { const st = S.plan[k]; return st && st.mins ? Object.values(st.mins).reduce((a, v) => a + num(v), 0) : 0; };
 export const planMin = d => { const st = S.plan[iso(d)] || { min: false }; return blocksFor(d, st).reduce((a, b) => a + b.min, 0); };
 const fmtMin = m => m >= 60 ? `${Math.floor(m / 60)} ч${m % 60 ? ' ' + m % 60 + ' мин' : ''}` : m + ' мин';
+/* выбранный день в полоске недели: null = сегодня */
+let sel = null;
+const selDate = () => sel ? new Date(sel + 'T12:00') : new Date();
 export function planWidget() {
-  const now = new Date(), k = iso(now), st = S.plan[k] || { done: {}, min: false }, w = WEEK[now.getDay()], mins = st.mins || {}, closed = !!st.closed;
-  const bl = blocksFor(now, st), tot = bl.reduce((a, b) => a + b.min, 0), fact = factMin(k), mon = monday(now);
-  const strip = Array.from({ length: 7 }, (_, i) => { const d = new Date(mon); d.setDate(mon.getDate() + i); const r = ratio(d), wk = WEEK[d.getDay()], cur = iso(d) === k, past = d < now && !cur && iso(d) >= startDate(), f = factMin(iso(d));
-    return `<a class="wd ${cur ? 'cur' : ''} ${r === 1 ? 'full' : r > 0 ? 'part' : past ? 'miss' : ''}" href="#/method/week"><b>${WD[d.getDay()]}${f ? ` <em>${f}′</em>` : ''}</b><small>${esc(wk.theme)}</small><i style="width:${r * 100}%"></i></a>`; }).join('');
+  const today = new Date(), tk = iso(today); if (sel === tk) sel = null;
+  const now = selDate(), k = iso(now), isToday = k === tk, future = k > tk, st = S.plan[k] || { done: {}, min: false }, w = WEEK[now.getDay()], mins = st.mins || {}, closed = !!st.closed;
+  const lock = closed || future, bl = blocksFor(now, st), tot = bl.reduce((a, b) => a + b.min, 0), fact = factMin(k), mon = monday(now);
+  const strip = Array.from({ length: 7 }, (_, i) => { const d = new Date(mon); d.setDate(mon.getDate() + i); const r = ratio(d), wk = WEEK[d.getDay()], cur = iso(d) === tk, past = iso(d) < tk && iso(d) >= startDate(), f = factMin(iso(d)), on = iso(d) === k;
+    return `<button type="button" class="wd ${cur ? 'cur' : ''} ${on ? 'sel' : ''} ${r === 1 ? 'full' : r > 0 ? 'part' : past ? 'miss' : ''}" data-wd="${iso(d)}" aria-pressed="${on}" title="${esc(dayName(iso(d)))}: показать план"><b>${WD[d.getDay()]}${f ? ` <em>${f}′</em>` : ''}</b><small>${esc(wk.theme)}</small><i style="width:${r * 100}%"></i></button>`; }).join('');
   const val = key => mins[key] != null && mins[key] !== '' ? num(mins[key]) : '';
-  const inp = (key, ph) => `<span class="pmw"><input class="pmin" type="number" inputmode="numeric" min="0" max="900" data-pm="${key}" value="${val(key)}" placeholder="${ph}" aria-label="Сколько минут ушло" ${closed ? 'disabled' : ''}><small>мин</small></span>`;
+  const inp = (key, ph) => `<span class="pmw"><input class="pmin" type="number" inputmode="numeric" min="0" max="900" data-pm="${key}" value="${val(key)}" placeholder="${ph}" aria-label="Сколько минут ушло" ${lock ? 'disabled' : ''}><small>мин</small></span>`;
   return `<div class="plan-w ${closed ? 'closed' : ''}">
-    <div class="pw-head"><div><b>${esc(w.name)} · ${esc(st.min ? 'Минимум (тяжёлый день)' : w.theme)}</b><small class="mute">${st.min ? 'Пропуск хуже короткого дня. Сделай хотя бы это.' : esc(w.note)}</small></div><span class="badge ${fact >= tot ? 'ok' : ''}" id="pwsum">${fact} / ${tot} мин</span></div>
-    ${closed ? '' : '<p class="mute pw-hint">Отмечай блок галочкой и пиши справа, сколько минут <b>на самом деле</b> ушло. В конце нажми «Закончить день», даже если успел не всё.</p>'}
-    <div class="pw-list">${bl.map((b, i) => `<div class="pb ${st.done[i] ? 'on' : ''}"><label><input type="checkbox" data-pb="${i}" ${st.done[i] ? 'checked' : ''} ${closed ? 'disabled' : ''}><span class="pm">${b.min}′</span><span><b>${esc(b.t)}</b>${b.d ? `<small>${esc(b.d)}</small>` : ''}</span></label>${inp(i, b.min)}<span class="pa">${b.href ? `<a class="ico" href="${fixHref(b.href)}" title="Открыть">→</a>` : ''}${b.g ? `<button class="ico" data-guide="${b.g}" title="Как делать правильно">?</button>` : ''}</span></div>`).join('')}
+    ${isToday ? '' : `<div class="pw-other"><span>${future ? 'Это план на будущий день: смотреть можно, отмечать нельзя.' : 'Ты смотришь прошедший день. Можно дописать минуты задним числом и закрыть его.'}</span><button class="lnk" id="ptoday">← к сегодня</button></div>`}
+    <div class="pw-head"><div><b>${isToday ? '' : esc(dayName(k)) + ', '}${esc(w.name)} · ${esc(st.min ? 'Минимум (тяжёлый день)' : w.theme)}</b><small class="mute">${st.min ? 'Пропуск хуже короткого дня. Сделай хотя бы это.' : esc(w.note)}</small></div><span class="badge ${fact >= tot ? 'ok' : ''}" id="pwsum">${fact} / ${tot} мин</span></div>
+    ${lock ? '' : '<p class="mute pw-hint">Отмечай блок галочкой и пиши справа, сколько минут <b>на самом деле</b> ушло. В конце нажми «Закончить день», даже если успел не всё.</p>'}
+    <div class="pw-list">${bl.map((b, i) => `<div class="pb ${st.done[i] ? 'on' : ''}"><label><input type="checkbox" data-pb="${i}" ${st.done[i] ? 'checked' : ''} ${lock ? 'disabled' : ''}><span class="pm">${b.min}′</span><span><b>${esc(b.t)}</b>${b.d ? `<small>${esc(b.d)}</small>` : ''}</span></label>${inp(i, b.min)}<span class="pa">${b.href ? `<a class="ico" href="${fixHref(b.href)}" title="Открыть">→</a>` : ''}${b.g ? `<button class="ico" data-guide="${b.g}" title="Как делать правильно">?</button>` : ''}</span></div>`).join('')}
     ${readingNow().length ? `<div class="pb rd"><span class="pm">📖</span><span><small>Сейчас читаешь</small><b>${readingNow().map(b => esc(b.title)).join(', ')}</b></span><span class="pa"><a class="ico" href="#/method/books" title="Что читать">→</a></span></div>` : ''}
     <div class="pb extra"><label><span class="pm">+</span><span><b>Сверх плана</b><small>Книга, сериал, разговор: всё на английском помимо блоков.</small></span></label>${inp('x', 0)}<span class="pa"></span></div></div>
     ${closed ? `<div class="pw-done"><b>✓ День закрыт: ${fmtMin(fact)}</b> <span class="mute">из ${tot} мин по плану · блоков ${bl.filter((_, i) => st.done[i]).length} из ${bl.length}</span><br><button class="lnk" id="preopen">исправить</button> · <a class="lnk" href="#/progress">график времени</a></div>`
-      : `<div class="btns"><button class="btn" id="pclose">Закончить день</button></div>`}
-    <div class="pw-foot">${closed ? '<span></span>' : `<button class="lnk" id="pmin">${st.min ? '← вернуть полный план' : 'Тяжёлый день? Переключить на минимум (30 мин)'}</button>`}<a class="lnk" href="#/method/week">План недели и подсказки →</a></div>
+      : future ? '' : `<div class="btns"><button class="btn" id="pclose">Закончить день</button></div>`}
+    <div class="pw-foot">${lock ? '<span></span>' : `<button class="lnk" id="pmin">${st.min ? '← вернуть полный план' : 'Тяжёлый день? Переключить на минимум (30 мин)'}</button>`}<a class="lnk" href="#/method/week">План недели и подсказки →</a></div>
     <div class="wstrip">${strip}</div></div>`;
 }
 export function wirePlan() {
-  const k = iso(new Date()), sum = document.getElementById('pwsum');
+  document.querySelectorAll('[data-wd]').forEach(b => b.onclick = () => { sel = b.dataset.wd; rerender(); });
+  const tb = document.getElementById('ptoday'); if (tb) tb.onclick = () => { sel = null; rerender(); };
+  const k = iso(selDate()), sum = document.getElementById('pwsum');
   document.querySelectorAll('[data-pb]').forEach(c => c.onchange = () => { pstate(k).done[c.dataset.pb] = c.checked; save(); rerender(); });
   document.querySelectorAll('[data-pm]').forEach(c => {
     c.oninput = () => { const st = pstate(k); (st.mins || (st.mins = {}))[c.dataset.pm] = c.value === '' ? '' : num(c.value); save(); if (sum) sum.textContent = sum.textContent.replace(/^\d+/, factMin(k)); };
